@@ -4,10 +4,11 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+        "pre-run": "rmdir /s /q .\\dist",
+        "test": "npm run pre-run && echo \"Error: no test specified\" && exit 1",
+        "build": "npm run pre-run && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
         "start": "node dist/server.js",
-        "dev": "nodemon -r tsconfig-paths/register api/server.ts"
+        "dev": "npm run pre-run && nodemon -r tsconfig-paths/register api/server.ts"
     },
     "keywords": [],
     "author": "Pedro Figueira",

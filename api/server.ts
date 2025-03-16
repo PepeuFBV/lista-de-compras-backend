@@ -10,7 +10,6 @@ const app: Express = express()
 const allowedOrigins = [process.env.CLIENT_URL]
 const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-        console.log(origin)
         if (allowedOrigins.includes(origin)) {
             callback(null, true)
         } else if (!origin || origin === undefined) {
