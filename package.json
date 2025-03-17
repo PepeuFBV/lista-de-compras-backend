@@ -8,7 +8,7 @@
         "test": "npm run pre-run && echo \"Error: no test specified\" && exit 1",
         "build": "npm run pre-run && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
         "start": "node dist/server.js",
-        "dev": "npm run pre-run && nodemon -r tsconfig-paths/register api/server.ts"
+        "dev": "npm run build && npm run pre-run && nodemon -r tsconfig-paths/register api/server.ts"
     },
     "keywords": [],
     "author": "Pedro Figueira",

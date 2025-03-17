@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, Db, Collection } from 'mongodb'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -61,4 +61,12 @@ async function getClient() {
     }
 }
 
-export { connect, getClient, checkEnvVariables }
+async function getConnection(): Promise<{ db: Db, collection: Collection }> {
+    if (process.env.MONGO_COLLECTION === undefined) throw new Error('MONGO_COLLECTION is required')
+    const client = await getClient()
+    const db = client.db(process.env.MONGO_DATABASE)
+    const collection = db.collection(process.env.MONGO_COLLECTION)
+    return { db, collection }
+}
+
+export { connect, getClient, getConnection, checkEnvVariables }

@@ -1,4 +1,7 @@
+import { ObjectId } from 'mongodb'
+
 type Item = {
+    _id?: ObjectId
     name: string
     type: 'padaria' | 'legume' | 'fruta' | 'bebida' | 'carne'
     ammount: number
