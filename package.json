@@ -9,7 +9,7 @@
         "build": "npm run pre-run && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
         "build-server": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
         "start": "node -r tsconfig-paths/register dist/server.js",
-        "dev": "npm run build && npm run pre-run && nodemon -r tsconfig-paths/register api/server.ts"
+        "dev": "npm run build && npm run pre-run && nodemon -r tsconfig-paths/register server.ts"
     },
     "keywords": [],
     "author": "Pedro Figueira",
