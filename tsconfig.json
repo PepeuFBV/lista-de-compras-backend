@@ -3,9 +3,9 @@
         /* Visit https://aka.ms/tsconfig to read more about this file */
         "baseUrl": "./",
         "paths": {
-            "@/*": ["api/*"],
-            "@services/*": ["api/services/*"],
-            "@utils/*": ["api/utils/*"]
+            "@/*": ["src/*"],
+            "@services/*": ["src/services/*"],
+            "@utils/*": ["src/utils/*"]
         },
         "target": "es2016",
         "outDir": "./dist",
