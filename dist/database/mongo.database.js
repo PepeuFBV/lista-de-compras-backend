@@ -26,9 +26,6 @@ function checkEnvVariables() {
     if (!process.env.MONGO_CLUSTER) {
         throw new Error('MONGO_CLUSTER is required');
     }
-    if (!process.env.PORT) {
-        throw new Error('PORT is required');
-    }
     return;
 }
 const username = encodeURIComponent(process.env.MONGO_USER);
