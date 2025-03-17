@@ -47,6 +47,7 @@ async function connect() {
         console.log('Connected to MongoDB')
     } catch (error) {
         console.error('Error connecting to MongoDB', error)
+        console.error('URI:', uri)
         throw error
     }
 }
@@ -58,12 +59,13 @@ async function getClient() {
         return client
     } catch (error) {
         console.error('Error getting MongoClient', error)
+        console.error('URI:', uri)
         throw new Error('MongoClient is not connected')
     }
 }
 
 async function getConnection(): Promise<{ db: Db, collection: Collection }> {
-    if (process.env.MONGO_COLLECTION === undefined) throw new Error('MONGO_COLLECTION is required')
+    if (process.env.MONGO_COLLECTION === undefined) throw new Error('MONGO_COLLECTION environment variable is required')
     const client = await getClient()
     const db = client.db(process.env.MONGO_DATABASE)
     const collection = db.collection(process.env.MONGO_COLLECTION)

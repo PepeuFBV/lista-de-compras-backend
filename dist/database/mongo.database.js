@@ -52,6 +52,7 @@ function connect() {
         }
         catch (error) {
             console.error('Error connecting to MongoDB', error);
+            console.error('URI:', uri);
             throw error;
         }
     });
@@ -64,6 +65,8 @@ function getClient() {
             return client;
         }
         catch (error) {
+            console.error('Error getting MongoClient', error);
+            console.error('URI:', uri);
             throw new Error('MongoClient is not connected');
         }
     });
@@ -71,7 +74,7 @@ function getClient() {
 function getConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         if (process.env.MONGO_COLLECTION === undefined)
-            throw new Error('MONGO_COLLECTION is required');
+            throw new Error('MONGO_COLLECTION environment variable is required');
         const client = yield getClient();
         const db = client.db(process.env.MONGO_DATABASE);
         const collection = db.collection(process.env.MONGO_COLLECTION);
