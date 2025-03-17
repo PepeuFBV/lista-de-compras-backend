@@ -2,36 +2,32 @@ import express, { Express, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import { connect, getConnection } from './src/database/mongo.database'
-import type { Item } from './src/types/item'
-import { isItem } from './src/types/item'
+import { connect, getConnection } from './database/mongo.database'
+import type { Item } from './types/item'
+import { isItem } from './types/item'
 import { ObjectId } from 'mongodb'
 
 dotenv.config()
 
 const app: Express = express()
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000']
 
 const corsOptions = {
     origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
+        callback(null, true)
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 200
-};
+}
 
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 app.use(bodyParser.json())
 app.use(express.static('public'))
 
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 3000
 
 app.use((req: Request, res: Response, next: () => void) => {
     console.log(`${req.method} ${req.url}`)
