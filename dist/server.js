@@ -11,8 +11,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { connect, getConnection } from '@/database/mongo.database';
-import { isItem } from '@/types/item';
+import { connect, getConnection } from './database/mongo.database';
+import { isItem } from './types/item';
 import { ObjectId } from 'mongodb';
 dotenv.config();
 const app = express();
@@ -26,6 +26,7 @@ const corsOptions = {
             callback(null, true);
         }
         else {
+            console.error('CORS error:', origin);
             callback(new Error('Not allowed by CORS'));
         }
     }

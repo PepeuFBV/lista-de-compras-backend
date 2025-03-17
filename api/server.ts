@@ -2,9 +2,9 @@ import express, { Express, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import { connect, getConnection } from '@/database/mongo.database'
-import type { Item } from '@/types/item'
-import { isItem } from '@/types/item'
+import { connect, getConnection } from './database/mongo.database'
+import type { Item } from './types/item'
+import { isItem } from './types/item'
 import { ObjectId } from 'mongodb'
 
 dotenv.config()
@@ -19,6 +19,7 @@ const corsOptions = {
         } else if (!origin || origin === undefined) {
             callback(null, true)
         } else {
+            console.error('CORS error:', origin)
             callback(new Error('Not allowed by CORS'))
         }
     }
