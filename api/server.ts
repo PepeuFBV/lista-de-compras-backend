@@ -14,7 +14,8 @@ const app: Express = express()
 const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    accept: '*/*',
 }
 
 app.use(cors(corsOptions))
@@ -32,6 +33,10 @@ app.use((req: Request, res: Response, next: () => void) => {
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server')
 })
+
+app.options('*', (req, res) => { // preflight request handler
+    res.sendStatus(200);
+});
 
 app.get('/items', async (req: Request, res: Response) => {
     try {
