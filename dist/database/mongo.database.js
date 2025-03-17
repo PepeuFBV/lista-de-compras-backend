@@ -68,4 +68,14 @@ function getClient() {
         }
     });
 }
-export { connect, getClient, checkEnvVariables };
+function getConnection() {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (process.env.MONGO_COLLECTION === undefined)
+            throw new Error('MONGO_COLLECTION is required');
+        const client = yield getClient();
+        const db = client.db(process.env.MONGO_DATABASE);
+        const collection = db.collection(process.env.MONGO_COLLECTION);
+        return { db, collection };
+    });
+}
+export { connect, getClient, getConnection, checkEnvVariables };

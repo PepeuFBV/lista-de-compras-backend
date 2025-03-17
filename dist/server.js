@@ -11,8 +11,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { connect, getClient } from './database/mongo.database';
-import { isItem } from './types/item';
+import { connect, getConnection } from '@/database/mongo.database';
+import { isItem } from '@/types/item';
+import { ObjectId } from 'mongodb';
 dotenv.config();
 const app = express();
 const allowedOrigins = [process.env.CLIENT_URL];
@@ -33,20 +34,17 @@ app.use(cors(corsOptions));
 const port = process.env.PORT || 3002;
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 app.get('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('GET /items');
     try {
-        if (!process.env.MONGO_DATABASE) {
-            throw new Error('MONGO_DATABASE is required');
-        }
-        if (!process.env.MONGO_COLLECTION) {
-            throw new Error('MONGO_COLLECTION is required');
-        }
-        const client = yield getClient();
-        const items = yield client.db(process.env.MONGO_DATABASE).collection(process.env.MONGO_COLLECTION).find().toArray();
+        const { collection } = yield getConnection();
+        const items = yield collection.find().toArray();
         res.send({ items });
     }
     catch (error) {
@@ -55,30 +53,33 @@ app.get('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 app.post('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('POST /items');
     const newItem = req.body;
     try {
-        if (!process.env.MONGO_DATABASE) {
-            throw new Error('MONGO_DATABASE is required');
-        }
-        if (!process.env.MONGO_COLLECTION) {
-            throw new Error('MONGO_COLLECTION is required');
-        }
-        // Validate newItem
         if (!isItem(newItem)) {
             return res.status(400).send({ error: 'Invalid item format' });
         }
-        const client = yield getClient();
-        const result = yield client.db(process.env.MONGO_DATABASE).collection(process.env.MONGO_COLLECTION).insertOne(newItem);
+        const { collection } = yield getConnection();
+        const result = yield collection.insertOne(newItem);
         return res.send({ result });
     }
     catch (error) {
         return res.status(500).send({ error: 'Failed to add item' });
     }
 }));
+app.delete('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.query.id;
+    try {
+        const { collection } = yield getConnection();
+        const result = yield collection.deleteOne({ _id: new ObjectId(id) });
+        return res.send({ result });
+    }
+    catch (error) {
+        return res.status(500).send({ error: 'Failed to delete item' });
+    }
+}));
 app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield connect(); // Establish connection to MongoDB
+        yield connect();
         console.log(`[server]: Server is running at http://localhost:${port}`);
     }
     catch (error) {
