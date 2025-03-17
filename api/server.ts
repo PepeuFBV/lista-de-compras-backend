@@ -64,6 +64,20 @@ app.post('/items', async (req: Request, res: Response): Promise<any> => {
     }
 })
 
+app.put('/items', async (req: Request, res: Response): Promise<any> => {
+    const updatedItem: Item = req.body
+    try {
+        if (!isItem(updatedItem)) {
+            return res.status(400).send({ error: 'Invalid item format' })
+        }
+        const { collection } = await getConnection()
+        const result = await collection.updateOne({ _id: updatedItem._id }, { $set: updatedItem })
+        return res.send({ result })
+    } catch (error) {
+        return res.status(500).send({ error: 'Failed to update item' })
+    }
+})
+
 app.delete('/items', async (req: Request, res: Response): Promise<any> => {
     const id = req.query.id as string
     try {

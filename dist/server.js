@@ -66,6 +66,20 @@ app.post('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(500).send({ error: 'Failed to add item' });
     }
 }));
+app.put('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedItem = req.body;
+    try {
+        if (!isItem(updatedItem)) {
+            return res.status(400).send({ error: 'Invalid item format' });
+        }
+        const { collection } = yield getConnection();
+        const result = yield collection.updateOne({ _id: updatedItem._id }, { $set: updatedItem });
+        return res.send({ result });
+    }
+    catch (error) {
+        return res.status(500).send({ error: 'Failed to update item' });
+    }
+}));
 app.delete('/items', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.query.id;
     try {
