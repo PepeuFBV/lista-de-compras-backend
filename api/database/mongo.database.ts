@@ -25,7 +25,7 @@ function checkEnvVariables() {
 const username: string = encodeURIComponent(process.env.MONGO_USER as string)
 const password: string = encodeURIComponent(process.env.MONGO_PASSWORD as string)
 const cluster: string = process.env.MONGO_CLUSTER as string
-const settings: string = process.env.MONGO_DATABASE as string
+const settings: string = process.env.MONGO_SETTINGS as string
 
 const uri: string = `mongodb+srv://${username}:${password}@${cluster}/${settings}`
 
