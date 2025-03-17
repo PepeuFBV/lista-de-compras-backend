@@ -11,20 +11,27 @@ dotenv.config()
 
 const app: Express = express()
 
+const allowedOrigins = ['http://localhost:3000'];
+
 const corsOptions = {
-    origin: '*',
+    origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    accept: '*/*',
     optionsSuccessStatus: 200
-}
+};
 
 app.use(cors(corsOptions))
-
-const port = process.env.PORT || 8000
-
+app.options('*', cors(corsOptions))
 app.use(bodyParser.json())
 app.use(express.static('public'))
+
+const port = process.env.PORT || 8000
 
 app.use((req: Request, res: Response, next: () => void) => {
     console.log(`${req.method} ${req.url}`)
