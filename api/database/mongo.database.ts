@@ -57,6 +57,7 @@ async function getClient() {
         await client.db().admin().ping()
         return client
     } catch (error) {
+        console.error('Error getting MongoClient', error)
         throw new Error('MongoClient is not connected')
     }
 }
