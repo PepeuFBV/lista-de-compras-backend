@@ -11,7 +11,7 @@ dotenv.config()
 
 const app: Express = express()
 
-const allowedOrigins = [process.env.CLIENT_URL]
+const allowedOrigins = [process.env.CLIENT_URL, 'http://localhost:3000']
 const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
         if (allowedOrigins.includes(origin)) {
