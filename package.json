@@ -4,20 +4,24 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+        "pre-run": "rmdir /s /q .\\dist",
+        "test": "npm run pre-run && echo \"Error: no test specified\" && exit 1",
+        "build": "npm run pre-run && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
         "start": "node dist/server.js",
-        "dev": "nodemon -r tsconfig-paths/register api/server.ts"
+        "dev": "npm run pre-run && nodemon -r tsconfig-paths/register api/server.ts"
     },
     "keywords": [],
     "author": "Pedro Figueira",
     "license": "MIT",
     "dependencies": {
+        "cors": "^2.8.5",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
+        "mongodb": "^6.14.2",
         "tsconfig-paths": "^4.2.0"
     },
     "devDependencies": {
+        "@types/cors": "^2.8.17",
         "@types/express": "^5.0.0",
         "@types/node": "^22.13.10",
         "concurrently": "^9.1.2",
