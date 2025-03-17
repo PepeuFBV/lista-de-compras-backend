@@ -64,6 +64,17 @@ app.post('/items', async (req: Request, res: Response): Promise<any> => {
     }
 })
 
+app.delete('/items', async (req: Request, res: Response): Promise<any> => {
+    const id = req.query.id as string
+    try {
+        const { collection } = await getConnection()
+        const result = await collection.deleteOne({ _id: new ObjectId(id) })
+        return res.send({ result })
+    } catch (error) {
+        return res.status(500).send({ error: 'Failed to delete item' })
+    }
+})
+
 app.listen(port, async () => {
     try {
         await connect()
