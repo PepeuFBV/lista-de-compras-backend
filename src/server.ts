@@ -75,18 +75,33 @@ app.put('/items', async (req: Request, res: Response): Promise<any> => {
             return res.status(400).send({ error: 'Invalid item format' })
         }
         const { collection } = await getConnection()
-        const result = await collection.updateOne({ _id: updatedItem._id }, { $set: updatedItem })
+        console.log('updatedItem id:', updatedItem._id)
+
+        const { _id, ...itemWithoutId } = updatedItem
+
+        const result = await collection.updateOne({ _id: new ObjectId(_id) }, { $set: itemWithoutId })
+        console.log('result: ', result)
+        if (result.matchedCount === 0) {
+            return res.status(404).send({ error: 'Item not found' })
+        }
         return res.send({ result })
     } catch (error) {
+        console.error('Error updating item:', error)
         return res.status(500).send({ error: 'Failed to update item' })
     }
 })
 
-app.delete('/items', async (req: Request, res: Response): Promise<any> => {
-    const id = req.query.id as string
+app.delete('/items/:id', async (req: Request, res: Response): Promise<any> => {
+    const id = req.params.id as string
+    if (!ObjectId.isValid(id)) {
+        return res.status(400).send({ error: 'Invalid item ID' })
+    }
     try {
         const { collection } = await getConnection()
         const result = await collection.deleteOne({ _id: new ObjectId(id) })
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ error: 'Item not found' })
+        }
         return res.send({ result })
     } catch (error) {
         return res.status(500).send({ error: 'Failed to delete item' })
