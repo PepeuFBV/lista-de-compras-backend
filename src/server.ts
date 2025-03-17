@@ -15,10 +15,11 @@ const allowedOrigins = ['http://localhost:3000']
 
 const corsOptions = {
     origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+        console.log('Origin:', origin)
         callback(null, true)
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers'],
     optionsSuccessStatus: 200
 }
 
