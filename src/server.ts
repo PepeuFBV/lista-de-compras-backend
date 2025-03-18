@@ -75,12 +75,11 @@ app.put('/items', async (req: Request, res: Response): Promise<any> => {
             return res.status(400).send({ error: 'Invalid item format' })
         }
         const { collection } = await getConnection()
-        console.log('updatedItem id:', updatedItem._id)
 
         const { _id, ...itemWithoutId } = updatedItem
 
         const result = await collection.updateOne({ _id: new ObjectId(_id) }, { $set: itemWithoutId })
-        console.log('result: ', result)
+
         if (result.matchedCount === 0) {
             return res.status(404).send({ error: 'Item not found' })
         }
