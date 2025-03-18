@@ -14,7 +14,8 @@ This is the backend for the "Lista de Compras" application, which manages a shop
 ## Requirements
 
 - Node.js
-- MongoDB
+- MongoDB Cluster and Database
+- Postman for API testing is recommended
 
 ## Installation
 
@@ -59,7 +60,7 @@ npm start
 
 ## API Documentation
 
-The API documentation is available at TODO
+The API documentation is available in a [Postman Documentation](https://documenter.getpostman.com/view/30842050/2sAYkEpK7E).
 
 ## Contributing
 
