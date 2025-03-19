@@ -1,6 +1,9 @@
 # Lista de Compras Backend
 
-This is the backend for the "Lista de Compras" application, which manages a shopping list. It is built using Node.js, Express, and MongoDB.
+> [!WARNING]
+> The current web deploymeny may be slow due to render's inactivity policy
+
+This is the backend for the "Lista de Compras Web" and "Lista de Compras Mobile" application, which manages a simple shopping list. It is built using Node.js, Express, and MongoDB.
 
 ## Features
 
